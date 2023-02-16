@@ -11,7 +11,7 @@ public class DevopsIntegrationApplication {
 
 	@GetMapping
 	public String message(){
-		return "welcome to LTIMindtree";
+		return "Welcome To LTIMindtree";
 	}
 
 	public static void main(String[] args) {
