@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: spring-boot-k8s
-          image: kranthikg/sharedlibimage:32
+          image: kranthikg/sharedlibimage:33
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081 
