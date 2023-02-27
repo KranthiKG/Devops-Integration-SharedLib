@@ -32,7 +32,22 @@ pipeline{
                 }
             }
         }
-      stage('Upload to Nexus') {
+      stage('Sonar_Report'){
+          when {
+              branch "dev"
+          }
+           steps{
+               withSonarQubeEnv('sq'){
+                   script{
+                       sh "mvn sonar:sonar"
+                   }
+                timeout(time: 10, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+            }   
+               }
+           }
+       }
+     stage('Upload to Nexus') {
             steps {
                 script {
                        nexusArtifactUploader artifacts: [[artifactId: 'devops-integration', classifier: '', file: '/var/lib/jenkins/.m2/repository/com/javatechie/devops-integration/0.0.1-SNAPSHOT/devops-integration-0.0.1-SNAPSHOT.jar', type: 'jar']], credentialsId: 'NEXUSCRED', groupId: 'com.kranthi', nexusUrl: '170.187.233.234:8081', nexusVersion: 'nexus3', protocol: 'http', repository: 'repository', version: '0.0.1-SNAPSHOT'
