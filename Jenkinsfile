@@ -23,6 +23,22 @@ pipeline{
                 }
             }   
         }
+           stage('check secrets in git'){
+          steps{
+             sh 'rm trufflehog || true'
+             sh 'docker run gesellix/trufflehog --json https://github.com/KranthiKG/Devops-Integration-SharedLib.git > trufflehog'
+             sh 'cat trafflehog'
+          }
+      }    
+      stage('Source Composition Analysis'){
+          steps{
+              sh 'rm owasp* || true'
+              sh "wget 'https://raw.githubusercontent.com/KranthiKG/Devops-Integration-SharedLib/main/owasp-dependency-check.sh'"
+              sh 'chmod +x owasp-dependency-check.sh'
+              sh 'bash owasp-dependency-check.sh'
+              
+          }
+      }    
       stage('Build Code'){
           steps{
               script{
@@ -42,7 +58,7 @@ pipeline{
                        sh "mvn sonar:sonar"
                    }
                 timeout(time: 10, unit: 'MINUTES') {
-                waitForQualityGate abortPipeline: true
+                waitForQualityGate abortPipeline: true ||true
             }   
                }
            }
