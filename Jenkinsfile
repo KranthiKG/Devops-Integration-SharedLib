@@ -27,7 +27,7 @@ pipeline{
           steps{
              sh 'rm trufflehog || true'
              sh 'docker run gesellix/trufflehog --json https://github.com/KranthiKG/Devops-Integration-SharedLib.git > trufflehog'
-             sh 'cat trafflehog'
+             sh 'cat trufflehog'
           }
       }    
       stage('Source Composition Analysis'){
